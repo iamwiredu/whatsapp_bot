@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "nomask/wsgi.py",
+        "src": "whatsapp_bot/wsgi.py",
         "use": "@vercel/python",
         "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
       },
@@ -18,7 +18,7 @@
       },
       {
         "src": "/(.*)",
-        "dest": "nomask/wsgi.py"
+        "dest": "whatsapp_bot/wsgi.py"
       }
     ]
   
