@@ -214,8 +214,10 @@
         }
 
         .payment-grid {
-          display: flex;
-           justify-content: center;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3rem;
+            align-items: start;
         }
 
         @media (max-width: 1024px) {
@@ -918,12 +920,21 @@
             </a>
             
             <ul class="nav-links">
-                <!-- <li><a href="#" class="nav-link">Home</a></li>
-                <li><a href="#" class="nav-link">Menu</a></li> -->
+                <li><a href="#" class="nav-link">Home</a></li>
+                <li><a href="#" class="nav-link">Menu</a></li>
                 <li><a href="#" class="nav-link">Orders</a></li>
-                <!-- <li><a href="#" class="nav-link">Support</a></li> -->
+                <li><a href="#" class="nav-link">Support</a></li>
             </ul>
             
+            <div class="nav-actions">
+                <button class="nav-btn" title="Notifications">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                </button>
+                <div class="user-avatar">JD</div>
+            </div>
         </nav>
     </header>
 
@@ -953,7 +964,7 @@
                     </div>
                     
                     <div class="info-grid">
-                        <!-- <div class="info-item">
+                        <div class="info-item">
                             <div class="info-item-icon">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -965,8 +976,8 @@
                                 <div class="info-value">John Doe</div>
                             </div>
                         </div>
-                         -->
-                        <!-- <div class="info-item">
+                        
+                        <div class="info-item">
                             <div class="info-item-icon">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -977,7 +988,7 @@
                                 <div class="info-label">Email</div>
                                 <div class="info-value">john.doe@email.com</div>
                             </div>
-                        </div> -->
+                        </div>
                         
                         <div class="info-item">
                             <div class="info-item-icon">
@@ -987,7 +998,7 @@
                             </div>
                             <div class="info-item-content">
                                 <div class="info-label">Phone</div>
-                                <div class="info-value">+{{order.phone_number}}</div>
+                                <div class="info-value">+233 24 123 4567</div>
                             </div>
                         </div>
                         
@@ -1000,10 +1011,10 @@
                             </div>
                             <div class="info-item-content">
                                 <div class="info-label">Address</div>
-                                <div class="info-value">{{order.address}}</div>
+                                <div class="info-value">123 Main Street, Accra</div>
                             </div>
                         </div>
-<!--                         
+                        
                         <div class="info-item">
                             <div class="info-item-icon">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1015,8 +1026,8 @@
                                 <div class="info-label">Delivery Time</div>
                                 <div class="info-value">25-35 minutes</div>
                             </div>
-                        </div> -->
-<!--                         
+                        </div>
+                        
                         <div class="info-item">
                             <div class="info-item-icon">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1028,16 +1039,67 @@
                                 <div class="info-label">Restaurant</div>
                                 <div class="info-value">Mama's Kitchen</div>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
 
-             
+                <!-- Order Items -->
+                <div class="order-items">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="21" r="1"></circle>
+                                <circle cx="20" cy="21" r="1"></circle>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                        </div>
+                        <h3 class="section-title">Your Order</h3>
+                    </div>
+                    
+                    <div class="order-item">
+                        <img src="/placeholder.svg?height=80&width=80&text=🍔" alt="Beef Burger Deluxe" class="order-item-image">
+                        <div class="order-item-details">
+                            <div class="order-item-name">Beef Burger Deluxe</div>
+                            <div class="order-item-meta">Large size • Qty: 2</div>
+                            <div class="order-item-note">Extra cheese, No onions</div>
+                        </div>
+                        <div class="order-item-price">GHS 45.00</div>
+                    </div>
+
+                    <div class="order-item">
+                        <img src="/placeholder.svg?height=80&width=80&text=🍟" alt="Crispy Fries" class="order-item-image">
+                        <div class="order-item-details">
+                            <div class="order-item-name">Crispy Fries</div>
+                            <div class="order-item-meta">Large size • Qty: 1</div>
+                        </div>
+                        <div class="order-item-price">GHS 15.00</div>
+                    </div>
+
+                    <div class="order-item">
+                        <img src="/placeholder.svg?height=80&width=80&text=🥤" alt="Coca Cola" class="order-item-image">
+                        <div class="order-item-details">
+                            <div class="order-item-name">Coca Cola</div>
+                            <div class="order-item-meta">500ml • Qty: 2</div>
+                        </div>
+                        <div class="order-item-price">GHS 8.00</div>
+                    </div>
+
+                    <div class="order-item">
+                        <img src="/placeholder.svg?height=80&width=80&text=🍕" alt="Margherita Pizza" class="order-item-image">
+                        <div class="order-item-details">
+                            <div class="order-item-name">Margherita Pizza</div>
+                            <div class="order-item-meta">Medium size, Thin crust • Qty: 1</div>
+                            <div class="order-item-note">With extra basil</div>
+                        </div>
+                        <div class="order-item-price">GHS 35.00</div>
+                    </div>
+                </div>
+
                 <!-- Totals -->
                 <div class="order-totals">
                     <div class="total-row subtotal">
                         <span>Subtotal:</span>
-                        <span>GHS{{order.amount}}.00</span>
+                        <span>GHS 103.00</span>
                     </div>
                     <div class="total-row subtotal">
                         <span>Delivery Fee:</span>
@@ -1049,18 +1111,66 @@
                     </div>
                     <div class="total-row final">
                         <span>Total:</span>
-                        <span>GHS {{order.total}}.00</span>
+                        <span>GHS 112.00</span>
                     </div>
                 </div>
 
                 <!-- Payment Button -->
-                <button class="payment-btn" id="django-paystack-button" onclick="payWithPayStack()">
-                    Complete Payment - GHS {{order.total}}.00
+                <button class="payment-btn" id="payment-button" onclick="processPayment()">
+                    Complete Payment - GHS 112.00
                 </button>
             </div>
 
             <!-- Order Summary Sidebar -->
-     
+            <div class="order-summary">
+                <div class="summary-header">
+                    <h3 class="summary-title">Order Summary</h3>
+                    <p class="summary-subtitle">4 items • Mama's Kitchen</p>
+                </div>
+
+                <div class="summary-items">
+                    <div class="summary-item">
+                        <img src="/placeholder.svg?height=60&width=60&text=🍔" alt="Beef Burger Deluxe" class="summary-item-image">
+                        <div class="summary-item-details">
+                            <div class="summary-item-name">Beef Burger Deluxe</div>
+                            <div class="summary-item-meta">Large • Qty: 2</div>
+                        </div>
+                        <div class="summary-item-price">GHS 45.00</div>
+                    </div>
+
+                    <div class="summary-item">
+                        <img src="/placeholder.svg?height=60&width=60&text=🍟" alt="Crispy Fries" class="summary-item-image">
+                        <div class="summary-item-details">
+                            <div class="summary-item-name">Crispy Fries</div>
+                            <div class="summary-item-meta">Large • Qty: 1</div>
+                        </div>
+                        <div class="summary-item-price">GHS 15.00</div>
+                    </div>
+
+                    <div class="summary-item">
+                        <img src="/placeholder.svg?height=60&width=60&text=🥤" alt="Coca Cola" class="summary-item-image">
+                        <div class="summary-item-details">
+                            <div class="summary-item-name">Coca Cola</div>
+                            <div class="summary-item-meta">500ml • Qty: 2</div>
+                        </div>
+                        <div class="summary-item-price">GHS 8.00</div>
+                    </div>
+
+                    <div class="summary-item">
+                        <img src="/placeholder.svg?height=60&width=60&text=🍕" alt="Margherita Pizza" class="summary-item-image">
+                        <div class="summary-item-details">
+                            <div class="summary-item-name">Margherita Pizza</div>
+                            <div class="summary-item-meta">Medium • Qty: 1</div>
+                        </div>
+                        <div class="summary-item-price">GHS 35.00</div>
+                    </div>
+                </div>
+
+                <div class="summary-total">
+                    <span>Total:</span>
+                    <span>GHS 112.00</span>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -1132,29 +1242,82 @@
             </div>
         </div>
     </footer>
-     <script>
-
-
-        function payWithPayStack() {
-            const paystack = new PaystackPop();
-            total = {{order.total}}
-            paystack.newTransaction({
-                key: "pk_live_bb2e84705148a6813e8df5c876019942c67fdcd3",
-                email: "kwakuwiredu0@gmail.com",
-                amount: `${total}`*100  ,
-                onSuccess: (transaction) => {
-                    localStorage.removeItem('nomask_cart')
-                    window.location.href = '/orderSuccess/{{order.slug}}'
-                },
-                onCancel: () => {
-                    alert('Payment Canceled')
-                }
-            });
-        }
-    </script>
-    <script src="https://js.paystack.co/v2/inline.js"></script>
 
     <script>
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Show alert function
+        function showAlert(message, type = 'info') {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert alert-${type}`;
+            alert.classList.remove('hidden');
+            
+            setTimeout(() => {
+                alert.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Payment processing function
+        function processPayment() {
+            const paymentBtn = document.getElementById('payment-button');
+            const originalText = paymentBtn.textContent;
+            
+            // Show loading state
+            paymentBtn.disabled = true;
+            paymentBtn.textContent = 'Processing Payment...';
+            paymentBtn.classList.add('processing');
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                // Simulate success
+                paymentBtn.classList.remove('processing');
+                paymentBtn.classList.add('success');
+                paymentBtn.textContent = 'Payment Successful! ✓';
+                
+                showAlert('Payment completed successfully! Your order is being prepared.', 'success');
+                
+                // Redirect after success (simulate)
+                setTimeout(() => {
+                    showAlert('Redirecting to order tracking...', 'info');
+                    // window.location.href = '/order-success';
+                }, 2000);
+                
+            }, 3000);
+        }
+
+        // Initialize page animations
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('GrabText payment page loaded successfully');
+            
+            // Add fade-in animation to payment container
+            const paymentContainer = document.querySelector('.payment-container');
+            if (paymentContainer) {
+                paymentContainer.classList.add('fade-in-up');
+            }
+            
+            // Add pulse animation to payment button after delay
+            const paymentBtn = document.getElementById('payment-button');
+            if (paymentBtn) {
+                setTimeout(() => {
+                    paymentBtn.classList.add('pulse');
+                }, 2000);
+            }
+            
+            // Simulate real-time order updates
+            setTimeout(() => {
+                showAlert('Your order has been confirmed and is being prepared!', 'info');
+            }, 1000);
+        });
 
         // Add interactive hover effects to order items
         document.querySelectorAll('.order-item').forEach(item => {
@@ -1203,6 +1366,5 @@
             });
         });
     </script>
-
 </body>
 </html>

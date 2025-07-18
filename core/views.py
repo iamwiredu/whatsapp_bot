@@ -46,10 +46,10 @@ def view_order(request, slug):
     whatsapp_number = '233XXXXXXXXX'  # Your business line
     message = f"Hello, I’ve completed payment for my order ({order.slug})"
     whatsapp_link = f"https://wa.me/{whatsapp_number}?text={message.replace(' ', '%20')}"
-
+    print(order.phone_number)
     return render(request, 'makePayment.html', {
         'order': order,
-        'paystack_public_key': settings.PAYSTACK_PUBLIC_KEY,
+        'paystack_public_key': 'https://07229c36e080.ngrok-free.app/create-order/',
         'callback_url': f"https://yourdomain.com/payment-success/{order.slug}/",
         'whatsapp_link': whatsapp_link,
     })

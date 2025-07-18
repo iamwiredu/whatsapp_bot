@@ -11,3 +11,9 @@ class Order(models.Model):
     paystack_slug = models.CharField(max_length=255, blank=True)
     paid = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+    @property
+    def total(self):
+        return self.amount + 7 + 2
+    
