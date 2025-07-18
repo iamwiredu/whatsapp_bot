@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrabText - Order Anything, Instantly, Over WhatsApp</title>
+    <meta name="description" content="Skip the apps. Order food and products directly through WhatsApp with instant delivery tracking and secure mobile payments.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #111827;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #1f2937;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            border-bottom: 1px solid #374151;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            margin-right: 0.5rem;
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1BA94C;
+        }
+
+        .nav {
+            display: none;
+            margin-left: 2rem;
+        }
+
+        .nav a {
+            color: #d1d5db;
+            text-decoration: none;
+            margin-right: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: #1BA94C;
+        }
+
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #1BA94C;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #158f3f;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #1BA94C;
+            border: 1px solid #1BA94C;
+        }
+
+        .btn-outline:hover {
+            background-color: #1BA94C;
+            color: white;
+        }
+
+        .btn-lg {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+
+        .btn-sm {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .icon {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(to right, #111827, #1f2937, #111827);
+            position: relative;
+            padding: 4rem 0;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(27, 169, 76, 0.1), rgba(21, 143, 63, 0.1));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-text {
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: rgba(27, 169, 76, 0.2);
+            color: #1BA94C;
+            border: 1px solid rgba(27, 169, 76, 0.3);
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-title .highlight {
+            color: #1BA94C;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: #d1d5db;
+            margin-bottom: 2rem;
+            max-width: 32rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .hero-card {
+            background-color: rgba(31, 41, 55, 0.5);
+            backdrop-filter: blur(8px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid #374151;
+            margin-top: 2rem;
+        }
+
+        .hero-card h3 {
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            color: #d1d5db;
+        }
+
+        .check-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: #1BA94C;
+            margin-right: 0.75rem;
+        }
+
+        /* Stats Section */
+        .stats {
+            background-color: #1f2937;
+            padding: 3rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            color: #9ca3af;
+        }
+
+        .stat-number {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: #1BA94C;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-dark {
+            background-color: #111827;
+        }
+
+        .section-gray {
+            background-color: #1f2937;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: #9ca3af;
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            background-color: #374151;
+        }
+
+        .card-content {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: white;
+            transition: color 0.3s;
+        }
+
+        .card:hover .card-title {
+            color: #1BA94C;
+        }
+
+        .card-description {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        /* Product Card Styles */
+        .product-card {
+            background-color: #374151;
+            border: 1px solid #4b5563;
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 12rem;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            background-color: #1BA94C;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+        }
+
+        .product-content {
+            padding: 1.5rem;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .star {
+            width: 1rem;
+            height: 1rem;
+            color: #fbbf24;
+            margin-right: 0.25rem;
+        }
+
+        .product-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: white;
+            transition: color 0.3s;
+        }
+
+        .product-card:hover .product-title {
+            color: #1BA94C;
+        }
+
+        .product-vendor {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1BA94C;
+        }
+
+        /* How It Works */
+        .step-circle {
+            width: 5rem;
+            height: 5rem;
+            background-color: #1BA94C;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .step-description {
+            color: #9ca3af;
+            font-size: 1.125rem;
+        }
+
+        /* Vendor Card */
+        .vendor-card {
+            background-color: #374151;
+            border: 1px solid #4b5563;
+            border-radius: 1rem;
+            transition: all 0.3s;
+        }
+
+        .vendor-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .vendor-image {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            object-fit: cover;
+        }
+
+        .vendor-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .vendor-specialty {
+            color: #9ca3af;
+            margin-bottom: 1rem;
+        }
+
+        .vendor-stats {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        /* Benefits Section */
+        .benefit-icon {
+            width: 4rem;
+            height: 4rem;
+            background-color: #1BA94C;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .benefit-icon svg {
+            width: 2rem;
+            height: 2rem;
+            color: white;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(to right, #1BA94C, #158f3f);
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-description {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 32rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-white {
+            background-color: white;
+            color: #1BA94C;
+        }
+
+        .btn-white:hover {
+            background-color: #f3f4f6;
+        }
+
+        .btn-outline-white {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .btn-outline-white:hover {
+            background-color: white;
+            color: #1BA94C;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #000000;
+            color: white;
+            padding: 4rem 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            color: #9ca3af;
+            margin-bottom: 1.5rem;
+            max-width: 24rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-links svg {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.5rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #1f2937;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 50;
+        }
+
+        .whatsapp-btn {
+            width: 4rem;
+            height: 4rem;
+            background-color: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: pulse 2s infinite;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #20b858;
+        }
+
+        .whatsapp-btn svg {
+            width: 2rem;
+            height: 2rem;
+            color: white;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Responsive Design */
+        @media (min-width: 640px) {
+            .hero-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .cta-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .nav {
+                display: flex;
+            }
+
+            .hero-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-text {
+                text-align: left;
+            }
+
+            .hero-title {
+                font-size: 3.75rem;
+            }
+
+            .grid-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .grid-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .footer-brand-section {
+                grid-column: span 2;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .grid-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .hidden-sm {
+            display: none;
+        }
+
+        @media (min-width: 640px) {
+            .hidden-sm {
+                display: inline-flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <svg class="logo" width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="20" cy="20" r="19" fill="#1BA94C" />
+                        <path d="M12 15 L28 15 L27 30 L13 30 Z" fill="#ffffff" stroke-width="1" />
+                        <circle cx="26" cy="12" r="6" fill="#ffffff" />
+                        <line x1="23" y1="10" x2="29" y2="10" stroke="#1BA94C" stroke-width="1" />
+                        <line x1="23" y1="12" x2="28" y2="12" stroke="#1BA94C" stroke-width="1" />
+                        <line x1="23" y1="14" x2="27" y2="14" stroke="#1BA94C" stroke-width="1" />
+                    </svg>
+                    <div class="brand-name">GrabText</div>
+                    <nav class="nav">
+                        <a href="#categories">Categories</a>
+                        <a href="#vendors">Vendors</a>
+                        <a href="#how-it-works">How it Works</a>
+                    </nav>
+                </div>
+                <div class="header-buttons">
+                    <a href="#" class="btn btn-outline hidden-sm">Become a Vendor</a>
+                    <button class="btn btn-primary" onclick="openWhatsApp()">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        Start Shopping
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="badge">🚀 No App Required</div>
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <svg width="150" height="150" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="60" cy="60" r="58" fill="url(#gradientDark)" stroke="#1BA94C" stroke-width="2" />
+                            <path d="M35 45 L85 45 L82 85 L38 85 Z" fill="#374151" stroke="#1BA94C" stroke-width="2.5" stroke-linejoin="round" />
+                            <path d="M45 45 L45 38 C45 33 48 30 53 30 L67 30 C72 30 75 33 75 38 L75 45" fill="none" stroke="#1BA94C" stroke-width="2.5" stroke-linecap="round" />
+                            <circle cx="75" cy="35" r="18" fill="#1BA94C" stroke="#374151" stroke-width="2" />
+                            <line x1="68" y1="30" x2="82" y2="30" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                            <line x1="68" y1="35" x2="80" y2="35" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                            <line x1="68" y1="40" x2="78" y2="40" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                            <path d="M65 45 L60 50 L70 48 Z" fill="#1BA94C" />
+                            <circle cx="50" cy="60" r="4" fill="#1BA94C" />
+                            <circle cx="65" cy="65" r="4" fill="#1BA94C" />
+                            <circle cx="55" cy="72" r="4" fill="#1BA94C" />
+                            <g transform="translate(45, 90)">
+                                <path d="M2 6 L6 10 L14 2" stroke="#1BA94C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                                <path d="M6 6 L10 10 L18 2" stroke="#1BA94C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                            </g>
+                            <defs>
+                                <linearGradient id="gradientDark" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#1f2937" />
+                                    <stop offset="100%" stop-color="#111827" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h1 class="hero-title">
+                        Shop Everything<br>
+                        <span class="highlight">Via WhatsApp</span>
+                    </h1>
+                    <p class="hero-description">
+                        Browse thousands of products from verified vendors. Order instantly through WhatsApp with secure payments and real-time tracking.
+                    </p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary btn-lg" onclick="openWhatsApp()">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                            Start Shopping Now
+                        </button>
+                        <button class="btn btn-outline btn-lg">Browse Categories</button>
+                    </div>
+                </div>
+                <div>
+                    <div class="hero-card">
+                        <div style="text-align: center; margin-bottom: 1rem;">
+                            <div style="font-size: 1.875rem; margin-bottom: 0.5rem;">📱</div>
+                            <h3>WhatsApp Shopping</h3>
+                        </div>
+                        <ul class="feature-list">
+                            <li class="feature-item">
+                                <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Browse 1000+ products
+                            </li>
+                            <li class="feature-item">
+                                <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Order via chat in seconds
+                            </li>
+                            <li class="feature-item">
+                                <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Track delivery in real-time
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">1000+</div>
+                    <div>Products Available</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div>Verified Vendors</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5000+</div>
+                    <div>Happy Customers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15min</div>
+                    <div>Avg. Response Time</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories" class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Shop by Category</h2>
+                <p class="section-subtitle">Discover products from trusted local vendors</p>
+            </div>
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-icon">🍕</div>
+                        <h3 class="card-title">Food & Dining</h3>
+                        <p class="card-description">500+ items</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-icon">📱</div>
+                        <h3 class="card-title">Electronics</h3>
+                        <p class="card-description">200+ items</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-icon">👕</div>
+                        <h3 class="card-title">Fashion</h3>
+                        <p class="card-description">300+ items</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-icon">🏠</div>
+                        <h3 class="card-title">Home & Garden</h3>
+                        <p class="card-description">150+ items</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-icon">💄</div>
+                        <h3 class="card-title">Health & Beauty</h3>
+                        <p class="card-description">100+ items</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-icon">⚽</div>
+                        <h3 class="card-title">Sports & Fitness</h3>
+                        <p class="card-description">80+ items</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="section section-gray">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4rem; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h2 class="section-title" style="margin-bottom: 1rem;">Featured Products</h2>
+                    <p class="section-subtitle">Popular items from our top vendors</p>
+                </div>
+                <button class="btn btn-outline">
+                    View All
+                    <svg style="width: 1rem; height: 1rem; margin-left: 0.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="grid grid-4">
+                <div class="product-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=200&h=200&fit=crop" alt="Fresh Pizza Margherita" class="product-image">
+                        <div class="product-badge">Food</div>
+                    </div>
+                    <div class="product-content">
+                        <div class="product-rating">
+                            <svg class="star" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <span style="font-size: 0.875rem; color: #9ca3af; margin-left: 0.25rem;">4.8</span>
+                        </div>
+                        <h3 class="product-title">Fresh Pizza Margherita</h3>
+                        <p class="product-vendor">Tony's Pizzeria</p>
+                        <div class="product-footer">
+                            <span class="product-price">$12.99</span>
+                            <button class="btn btn-primary btn-sm" onclick="openWhatsApp()">
+                                <svg style="width: 1rem; height: 1rem; margin-right: 0.25rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                </svg>
+                                Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop" alt="Wireless Headphones" class="product-image">
+                        <div class="product-badge">Electronics</div>
+                    </div>
+                    <div class="product-content">
+                        <div class="product-rating">
+                            <svg class="star" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <span style="font-size: 0.875rem; color: #9ca3af; margin-left: 0.25rem;">4.6</span>
+                        </div>
+                        <h3 class="product-title">Wireless Headphones</h3>
+                        <p class="product-vendor">TechHub Store</p>
+                        <div class="product-footer">
+                            <span class="product-price">$89.99</span>
+                            <button class="btn btn-primary btn-sm" onclick="openWhatsApp()">
+                                <svg style="width: 1rem; height: 1rem; margin-right: 0.25rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                </svg>
+                                Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=200&h=200&fit=crop" alt="Organic Coffee Beans" class="product-image">
+                        <div class="product-badge">Beverages</div>
+                    </div>
+                    <div class="product-content">
+                        <div class="product-rating">
+                            <svg class="star" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <span style="font-size: 0.875rem; color: #9ca3af; margin-left: 0.25rem;">4.9</span>
+                        </div>
+                        <h3 class="product-title">Organic Coffee Beans</h3>
+                        <p class="product-vendor">Bean & Brew</p>
+                        <div class="product-footer">
+                            <span class="product-price">$24.99</span>
+                            <button class="btn btn-primary btn-sm" onclick="openWhatsApp()">
+                                <svg style="width: 1rem; height: 1rem; margin-right: 0.25rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                </svg>
+                                Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div style="position: relative;">
+                        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&h=200&fit=crop" alt="Designer T-Shirt" class="product-image">
+                        <div class="product-badge">Fashion</div>
+                    </div>
+                    <div class="product-content">
+                        <div class="product-rating">
+                            <svg class="star" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <span style="font-size: 0.875rem; color: #9ca3af; margin-left: 0.25rem;">4.7</span>
+                        </div>
+                        <h3 class="product-title">Designer T-Shirt</h3>
+                        <p class="product-vendor">Fashion Forward</p>
+                        <div class="product-footer">
+                            <span class="product-price">$34.99</span>
+                            <button class="btn btn-primary btn-sm" onclick="openWhatsApp()">
+                                <svg style="width: 1rem; height: 1rem; margin-right: 0.25rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                </svg>
+                                Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">How GrabText Works</h2>
+                <p class="section-subtitle">Shopping made simple in 3 easy steps</p>
+            </div>
+            <div class="grid grid-3">
+                <div style="text-align: center;">
+                    <div class="step-circle">
+                        <svg style="width: 2.5rem; height: 2.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">Chat to Browse</h3>
+                    <p class="step-description">Send "Hi" to our WhatsApp bot and browse products by category or search for specific items.</p>
+                </div>
+                <div style="text-align: center;">
+                    <div class="step-circle">
+                        <svg style="width: 2.5rem; height: 2.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">Select & Customize</h3>
+                    <p class="step-description">Choose your products, specify quantities, and add any special instructions through chat.</p>
+                </div>
+                <div style="text-align: center;">
+                    <div class="step-circle">
+                        <svg style="width: 2.5rem; height: 2.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">Pay & Track</h3>
+                    <p class="step-description">Complete secure payment via mobile money and receive real-time delivery updates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Vendors -->
+    <section id="vendors" class="section section-gray">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Top Vendors</h2>
+                <p class="section-subtitle">Trusted partners delivering quality products</p>
+            </div>
+            <div class="grid grid-3">
+                <div class="vendor-card">
+                    <div class="card-content">
+                        <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=80&h=80&fit=crop&crop=face" alt="Tony's Pizzeria" class="vendor-image">
+                        <h3 class="vendor-name">Tony's Pizzeria</h3>
+                        <p class="vendor-specialty">Italian Cuisine</p>
+                        <div class="vendor-stats">
+                            <div style="display: flex; align-items: center;">
+                                <svg class="star" fill="currentColor" viewBox="0 0 20 20" style="margin-right: 0.25rem;">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                </svg>
+                                4.8
+                            </div>
+                            <div>1,200+ orders</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="vendor-card">
+                    <div class="card-content">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" alt="TechHub Store" class="vendor-image">
+                        <h3 class="vendor-name">TechHub Store</h3>
+                        <p class="vendor-specialty">Electronics</p>
+                        <div class="vendor-stats">
+                            <div style="display: flex; align-items: center;">
+                                <svg class="star" fill="currentColor" viewBox="0 0 20 20" style="margin-right: 0.25rem;">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                </svg>
+                                4.6
+                            </div>
+                            <div>800+ orders</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="vendor-card">
+                    <div class="card-content">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="Bean & Brew" class="vendor-image">
+                        <h3 class="vendor-name">Bean & Brew</h3>
+                        <p class="vendor-specialty">Coffee & Beverages</p>
+                        <div class="vendor-stats">
+                            <div style="display: flex; align-items: center;">
+                                <svg class="star" fill="currentColor" viewBox="0 0 20 20" style="margin-right: 0.25rem;">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                </svg>
+                                4.9
+                            </div>
+                            <div>600+ orders</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose GrabText?</h2>
+                <p class="section-subtitle">The future of mobile commerce is here</p>
+            </div>
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="benefit-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="card-title">Instant Ordering</h3>
+                        <p class="card-description">No apps to download. Order directly through WhatsApp in seconds.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="benefit-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="card-title">Secure Payments</h3>
+                        <p class="card-description">Protected mobile money transactions with end-to-end encryption.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="benefit-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="card-title">Fast Delivery</h3>
+                        <p class="card-description">Quick delivery with real-time tracking updates via WhatsApp.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="benefit-icon">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="card-title">Verified Vendors</h3>
+                        <p class="card-description">All vendors are carefully vetted to ensure quality and reliability.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2 class="cta-title">Ready to Start Shopping?</h2>
+            <p class="cta-description">
+                Join thousands of customers who are already shopping smarter with GrabText. No downloads, no hassle.
+            </p>
+            <div class="cta-buttons">
+                <button class="btn btn-white btn-lg" onclick="openWhatsApp()">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                    Start Shopping Now
+                </button>
+                <button class="btn btn-outline-white btn-lg">Become a Vendor</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand-section" style="grid-column: span 2;">
+                    <div class="footer-brand">
+                        <svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 0.5rem;">
+                            <circle cx="20" cy="20" r="19" fill="#1BA94C" />
+                            <path d="M12 15 L28 15 L27 30 L13 30 Z" fill="#ffffff" stroke-width="1" />
+                            <circle cx="26" cy="12" r="6" fill="#ffffff" />
+                            <line x1="23" y1="10" x2="29" y2="10" stroke="#1BA94C" stroke-width="1" />
+                            <line x1="23" y1="12" x2="28" y2="12" stroke="#1BA94C" stroke-width="1" />
+                            <line x1="23" y1="14" x2="27" y2="14" stroke="#1BA94C" stroke-width="1" />
+                        </svg>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #1BA94C;">GrabText</div>
+                    </div>
+                    <p class="footer-description">
+                        The future of mobile commerce. Shop everything via WhatsApp with secure payments and instant delivery.
+                    </p>
+                    <button class="btn btn-primary" onclick="openWhatsApp()">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        Start Shopping
+                    </button>
+                </div>
+                <div class="footer-section">
+                    <h4>Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">All Categories</a></li>
+                        <li><a href="#">Featured Products</a></li>
+                        <li><a href="#">Top Vendors</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="#">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                </svg>
+                                Privacy Policy
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                                Contact Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                </svg>
+                                Instagram
+                            </a>
+                        </li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 GrabText. All rights reserved. Built for the future of mobile commerce.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <div class="whatsapp-float">
+        <button class="whatsapp-btn" onclick="openWhatsApp()">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // WhatsApp Integration
+        function openWhatsApp() {
+            const phoneNumber = '1234567890'; // Replace with your actual WhatsApp business number
+            const message = encodeURIComponent('Hi! I want to start shopping on GrabText.');
+            const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+            window.open(whatsappURL, '_blank');
+        }
+
+        // Smooth scrolling for navigation links
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('a[href^="#"]');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add scroll effect to header
+            const header = document.querySelector('.header');
+            let lastScrollTop = 0;
+
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    // Scrolling down
+                    header.style.transform = 'translateY(-100%)';
+                } else {
+                    // Scrolling up
+                    header.style.transform = 'translateY(0)';
+                }
+                
+                lastScrollTop = scrollTop;
+            });
+
+            // Add intersection observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all cards and sections
+            const animatedElements = document.querySelectorAll('.card, .product-card, .vendor-card, .section-header');
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+
+            // Add click tracking for analytics (placeholder)
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('.btn-primary') || e.target.closest('.btn-primary')) {
+                    console.log('Primary button clicked:', e.target.textContent || 'WhatsApp button');
+                    // Add your analytics tracking code here
+                }
+            });
+
+            // Mobile menu toggle (if needed)
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const nav = document.querySelector('.nav');
+            
+            if (mobileMenuToggle && nav) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    nav.classList.toggle('active');
+                });
+            }
+
+            // Add loading state to buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.onclick && this.onclick.toString().includes('openWhatsApp')) {
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<svg class="icon animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>Opening WhatsApp...';
+                        
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    }
+                });
+            });
+        });
+
+        // Add CSS for animations
+        const style = document.createElement('style');
+        style.textContent = `
+            .animate-spin {
+                animation: spin 1s linear infinite;
+            }
+            
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            
+            .header {
+                transition: transform 0.3s ease;
+            }
+            
+            @media (max-width: 767px) {
+                .nav {
+                    display: none;
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                    background-color: #1f2937;
+                    border-top: 1px solid #374151;
+                    padding: 1rem;
+                    flex-direction: column;
+                }
+                
+                .nav.active {
+                    display: flex;
+                }
+                
+                .nav a {
+                    margin: 0.5rem 0;
+                    padding: 0.5rem;
+                    border-radius: 0.375rem;
+                    transition: background-color 0.3s;
+                }
+                
+                .nav a:hover {
+                    background-color: #374151;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
