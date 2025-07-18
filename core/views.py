@@ -10,35 +10,40 @@ from django.conf import settings
 @csrf_exempt
 def create_order(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
+        try:
+            data = json.loads(request.body)
 
-        # Extract order details
-        phone = data.get('phone_number')
-        item = data.get('item')
-        quantity = data.get('quantity')
-        address = data.get('address')
-        amount = data.get('amount')  # in pesewas
-        paystack_slug = str(uuid.uuid4())  # unique slug for payment & order
+            phone = data.get('phone_number')
+            item = data.get('item')
+            quantity = data.get('quantity')
+            address = data.get('address')
+            amount = data.get('amount')  # in pesewas
+            paystack_slug = str(uuid.uuid4())
 
-        order = Order.objects.create(
-            slug=paystack_slug,
-            phone_number=phone,
-            item=item,
-            quantity=quantity,
-            address=address,
-            amount=amount,
-            paystack_slug=paystack_slug,
-        )
+            order = Order.objects.create(
+                slug=paystack_slug,
+                phone_number=phone,
+                item=item,
+                quantity=quantity,
+                address=address,
+                amount=amount,
+                paystack_slug=paystack_slug,
+            )
 
-        order_url = request.build_absolute_uri(f"/order/{order.slug}/")
-        return JsonResponse({
-            'success': True,
-            'order_id': order.slug,
-            'order_url': order_url,
-        })
+            order_url = request.build_absolute_uri(f"/order/{order.slug}/")
+            return JsonResponse({
+                'success': True,
+                'order_id': order.slug,
+                'order_url': order_url,
+            })
 
-    return JsonResponse({'error': 'Invalid request method'}, status=400)
-
+        except Exception as err:
+            error_message = str(err)
+            print(f"❌ Error creating order: {error_message}")
+            return JsonResponse({
+                'success': False,
+                'error': error_message,
+            }, status=500)
 
 def view_order(request, slug):
     order = get_object_or_404(Order, slug=slug)
