@@ -1,60 +1,67 @@
-import requests
-from django.conf import settings
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
+import uuid
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse
 from .models import Order
-from .serializers import OrderSerializer
+from django.views.decorators.csrf import csrf_exempt
+import json
+from django.conf import settings
 
-@api_view(['POST'])
+
+@csrf_exempt
 def create_order(request):
-    data = request.data
-    item = data.get('item')
-    quantity = int(data.get('quantity'))
-    unit_price = {
-        'pizza': 2500,
-        'burger': 1500,
-        'fries': 1000
-    }.get(item.lower())
+    if request.method == 'POST':
+        data = json.loads(request.body)
 
-    if not unit_price:
-        return Response({"error": "Invalid item"}, status=400)
+        # Extract order details
+        phone = data.get('phone_number')
+        item = data.get('item')
+        quantity = data.get('quantity')
+        address = data.get('address')
+        amount = data.get('amount')  # in pesewas
+        paystack_slug = str(uuid.uuid4())  # unique slug for payment & order
 
-    amount = unit_price * quantity
-    order = Order.objects.create(
-        phone_number=data.get('phone_number'),
-        item=item,
-        quantity=quantity,
-        address=data.get('address'),
-        amount=amount,
-    )
+        order = Order.objects.create(
+            slug=paystack_slug,
+            phone_number=phone,
+            item=item,
+            quantity=quantity,
+            address=address,
+            amount=amount,
+            paystack_slug=paystack_slug,
+        )
 
-    # Create Paystack Page
-    paystack_secret = settings.PAYSTACK_SECRET_KEY
-    headers = {
-        "Authorization": f"Bearer {paystack_secret}",
-        "Content-Type": "application/json"
-    }
+        order_url = request.build_absolute_uri(f"/order/{order.slug}/")
+        return JsonResponse({
+            'success': True,
+            'order_id': order.slug,
+            'order_url': order_url,
+        })
 
-    payload = {
-        "name": f"{item.title()} x{quantity}",
-        "description": f"Order for {order.phone_number} to {order.address}",
-        "amount": amount * 100,  # kobo or pesewas
-        "currency": "GHS"
-    }
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
 
-    r = requests.post("https://api.paystack.co/page", json=payload, headers=headers)
-    res = r.json()
 
-    if r.status_code != 200 or not res.get('status'):
-        return Response({"error": "Failed to create Paystack page"}, status=500)
+def view_order(request, slug):
+    order = get_object_or_404(Order, slug=slug)
 
-    paystack_slug = res['data']['slug']
-    order.paystack_slug = paystack_slug
+    whatsapp_number = '233XXXXXXXXX'  # Your business line
+    message = f"Hello, I’ve completed payment for my order ({order.slug})"
+    whatsapp_link = f"https://wa.me/{whatsapp_number}?text={message.replace(' ', '%20')}"
+
+    return render(request, 'makePayment.html', {
+        'order': order,
+        'paystack_public_key': settings.PAYSTACK_PUBLIC_KEY,
+        'callback_url': f"https://yourdomain.com/payment-success/{order.slug}/",
+        'whatsapp_link': whatsapp_link,
+    })
+
+
+def payment_success(request, slug):
+    order = get_object_or_404(Order, slug=slug)
+    order.paid = True
     order.save()
 
-    return Response({
-        "success": True,
-        "order_slug": order.slug,
-        "payment_page": f"https://paystack.com/pay/{paystack_slug}"
-    })
+    whatsapp_number = '233XXXXXXXXX'
+    message = f"Hello, I’ve completed payment for my order ({order.slug})"
+    whatsapp_link = f"https://wa.me/{whatsapp_number}?text={message.replace(' ', '%20')}"
+
+    return redirect(whatsapp_link)

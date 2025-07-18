@@ -1,0 +1,1041 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - No Mask</title>
+   <link rel="icon" type="image/png" href="{% static 'home/store/black_logo.png' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-black: #000000;
+            --primary-white: #ffffff;
+            --neutral-100: #f5f5f5;
+            --neutral-200: #e5e5e5;
+            --neutral-300: #d4d4d4;
+            --neutral-400: #a3a3a3;
+            --neutral-500: #737373;
+            --neutral-600: #525252;
+            --neutral-700: #404040;
+            --neutral-800: #262626;
+            --neutral-900: #171717;
+            --cream: #f8f6f0;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #000000;
+            background-color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Updated Header - No Mask Theme */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .header.scrolled {
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 1px 19px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Three-column grid layout for perfect centering */
+        .nav-container {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            padding: 15px 25px;
+            max-width: 1078px;
+            margin: 0 auto;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .nav-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        /* Logo positioning and animation */
+        .brand-logo {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 31px;
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo-text {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo-icon {
+            position: absolute;
+            width: 0;
+            height: 0;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000000;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .brand-logo.condensed .logo-text {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+
+        .brand-logo.condensed .logo-icon {
+            width: 28px;
+            height: 28px;
+            opacity: 1;
+        }
+
+        .brand-logo:hover {
+            opacity: 0.8;
+        }
+
+        /* Navigation buttons */
+        .nav-btn {
+            background: none;
+            border: none;
+            padding: 0.4rem;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            color: #ffffff;
+        }
+
+        .nav-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        .nav-btn svg {
+            width: 1.2rem;
+            height: 1.2rem;
+            stroke: #ffffff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-btn:hover svg {
+            stroke: #ffffff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 18px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #cccccc;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #ffffff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-left .nav-links {
+            display: none;
+        }
+
+        .mobile-menu-btn {
+            display: block;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Menu Slideout */
+        .menu-slideout {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 246px;
+            height: 100%;
+            background: #000000;
+            color: #ffffff;
+            z-index: 101;
+            padding: 1.5rem;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.5);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .overlay.active .menu-slideout {
+            transform: translateX(0);
+        }
+
+        .menu-header {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-nav {
+            list-style: none;
+        }
+
+        .menu-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-nav a {
+            display: block;
+            padding: 0.6rem 0.8rem;
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: 0.4rem;
+            transition: all 0.2s;
+        }
+
+        .menu-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s;
+            color: #ffffff;
+        }
+
+        .close-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        /* Main Container */
+        .payment-container {
+            max-width: 1078px;
+            margin: 0 auto;
+            padding: 1.5rem 0.8rem;
+            margin-top: 62px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Payment Receipt */
+        .payment-receipt {
+            background: white;
+            border-radius: 0.8rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 2px solid #f0f0f0;
+        }
+
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #000000;
+        }
+
+        .receipt-title {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: #000000;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .receipt-subtitle {
+            color: #525252;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Customer Info */
+        .customer-info {
+            background: #f8f9fa;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .customer-info h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 1rem;
+            letter-spacing: 0.02em;
+        }
+
+        .customer-info p {
+            color: #374151;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .customer-info strong {
+            color: #000000;
+            font-weight: 600;
+        }
+
+        /* Order Items */
+        .order-items {
+            margin-bottom: 2rem;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item img {
+            width: 3.5rem;
+            height: 3.5rem;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .order-item-details {
+            flex: 1;
+        }
+
+        .order-item-name {
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .order-item-meta {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+
+        .order-item-price {
+            font-weight: 700;
+            color: #000000;
+            font-size: 0.9rem;
+        }
+
+        /* Totals */
+        .order-totals {
+            padding-top: 1.5rem;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .total-row.final {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #000000;
+            padding-top: 0.75rem;
+            border-top: 2px solid #000000;
+            margin-top: 0.75rem;
+        }
+
+        /* Payment Button */
+        .payment-btn {
+            width: 100%;
+            background: #000000;
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 2rem;
+            letter-spacing: 0.02em;
+        }
+
+        .payment-btn:hover:not(:disabled) {
+            background: #333333;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .payment-btn:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Order Summary Sidebar */
+        .order-summary {
+            background: #000000;
+            color: #ffffff;
+            border-radius: 0.8rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid #000000;
+            height: fit-content;
+            position: sticky;
+            top: 4.6rem;
+        }
+
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .summary-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.02em;
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s ease;
+            stroke: #ffffff;
+        }
+
+        .toggle-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .summary-items {
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-item {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .summary-item img {
+            width: 3rem;
+            height: 3rem;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .summary-item-details {
+            flex: 1;
+        }
+
+        .summary-item-name {
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.25rem;
+            font-size: 0.8rem;
+        }
+
+        .summary-item-meta {
+            font-size: 0.7rem;
+            color: #cccccc;
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-item-price {
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 0.8rem;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ffffff;
+            padding-top: 1rem;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            background: #000000;
+            color: #ffffff;
+            padding: 62px 0 31px;
+            margin-top: 2.3rem;
+        }
+
+        .footer-container {
+            max-width: 1078px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 46px;
+            margin-bottom: 46px;
+        }
+
+        .footer-brand {
+            max-width: 231px;
+        }
+
+        .footer-logo {
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: #ffffff;
+            margin-bottom: 18px;
+        }
+
+        .footer-description {
+            font-size: 11px;
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-link {
+            width: 31px;
+            height: 31px;
+            background: #000000;
+            color: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .social-link:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            color: #000000;
+        }
+
+        .footer-section h3 {
+            font-size: 12px;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 18px;
+            letter-spacing: 0.02em;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 9px;
+        }
+
+        .footer-links a {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 11px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 31px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-copyright {
+            font-size: 11px;
+            color: #cccccc;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .footer-legal a {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 11px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .footer-legal a:hover {
+            color: #ffffff;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .payment-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .order-summary {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 12px 15px;
+                grid-template-columns: auto 1fr auto;
+            }
+
+            .payment-container {
+                margin-top: 54px;
+                padding: 1rem;
+            }
+
+            .payment-receipt,
+            .order-summary {
+                padding: 1.5rem;
+            }
+
+            .menu-slideout {
+                width: 100%;
+                max-width: 270px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 31px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-legal {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .menu-slideout {
+                max-width: 246px;
+            }
+        }
+
+        /* Hidden elements */
+        .hidden {
+            display: none;
+        }
+
+        /* Alert styling */
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            border: 2px solid;
+            position: fixed;
+            top: 5rem;
+            right: 1rem;
+            z-index: 1000;
+            max-width: 400px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-weight: 500;
+        }
+
+        .alert-info {
+            background-color: #f0f9ff;
+            border-color: #000000;
+            color: #000000;
+        }
+
+        .alert-error {
+            background-color: #fef2f2;
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+
+        .alert-success {
+            background-color: #f0fdf4;
+            border-color: #16a34a;
+            color: #16a34a;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Updated Header -->
+    <header class="header" id="header">
+        <nav class="nav-container">
+            <div class="nav-left">
+                <ul class="nav-links">
+                    <li><a href="#" class="nav-link">Home</a></li>
+                    <li><a href="#" class="nav-link">Shop</a></li>
+                    <li><a href="#" class="nav-link">Collections</a></li>
+                    <li><a href="#" class="nav-link">About</a></li>
+                    <li><a href="#" class="nav-link">Contact</a></li>
+                </ul>
+                <button class="mobile-menu-btn nav-btn" id="menu-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <!-- CENTERED LOGO -->
+            <div class="nav-center">
+                <a href="#" class="brand-logo" id="brandLogo">
+                    <span class="logo-text"><img style="width: 50px; height: auto;" src="{% static 'home/store/logo_white.png' %}" alt=""></span>
+                    <div class="logo-icon" id="logoIcon">NM</div>
+                </a>
+            </div>
+            <div class="nav-right">
+                <!-- Empty space for symmetry -->
+            </div>
+        </nav>
+    </header>
+
+    <!-- Menu Overlay -->
+    <div class="overlay" id="menu-overlay">
+        <div class="menu-slideout">
+            <div class="menu-header">
+                <span>Menu</span>
+                <button class="close-btn" id="close-menu">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <ul class="menu-nav">
+                <li><a href="#" onclick="closeMenu()">Home</a></li>
+                <li><a href="#" onclick="closeMenu()">Store</a></li>
+                <li><a href="#" onclick="closeMenu()">Collections</a></li>
+                <li><a href="#" onclick="closeMenu()">About</a></li>
+                <li><a href="#" onclick="closeMenu()">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Alert for messages -->
+    <div class="alert alert-info hidden" id="alert"></div>
+
+    <!-- Main Content -->
+    <main class="payment-container">
+        <!-- Payment Receipt -->
+        <div class="payment-receipt">
+            <div class="receipt-header">
+                <h1 class="receipt-title">Payment Receipt</h1>
+                <p class="receipt-subtitle">Order #{{payment.ref}}</p>
+            </div>
+
+            <!-- Customer Info -->
+            <div class="customer-info">
+                <h3>Customer Details</h3>
+                <p><strong>Name:</strong> {{payment.first_name}} {{payment.last_name}}</p>
+                <p><strong>Email:</strong> {{payment.email}}</p>
+                <p><strong>Phone:</strong> {{payment.phone}}</p>
+                <p><strong>Address:</strong> {{payment.street_address_1}}{% if payment.street_address_2 %},
+                    {{payment.street_address_2}}{% endif %}</p>
+                <p><strong>City:</strong> {{payment.city}}, {{payment.state}}</p>
+                <p><strong>Country:</strong> {{payment.destination_country}}</p>
+            </div>
+
+            <!-- Order Items -->
+            <div class="order-items">
+                {% for item in payment.cart.items.all %}
+                <div class="order-item">
+                    <img src="{{item.product.image.url}}" alt="{{item.product.name}}"
+                        onerror="this.src='https://via.placeholder.com/80x80/f3f4f6/9ca3af?text=Product'">
+                    <div class="order-item-details">
+                        <div class="order-item-name">{{item.product.name}}</div>
+                        <div class="order-item-meta">
+                            {% if item.size != 'none' %}Size: {{item.size}} • {% endif %}Qty: {{item.quantity}}
+                        </div>
+                        <div class="order-item-price">GHS {{item.price}}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Totals -->
+            <div class="order-totals">
+                <div class="total-row">
+                    <span>Subtotal:</span>
+                    <span>GHS {{payment.subtotal}}</span>
+                </div>
+                <div class="total-row">
+                    <span>Delivery:</span>
+                    <span>GHS {{payment.delivery_actual}}</span>
+                </div>
+                <div class="total-row final">
+                    <span>Total:</span>
+                    <span>GHS {{payment.total_actual}}</span>
+                </div>
+            </div>
+
+            <!-- Payment Button -->
+            <button class="payment-btn" id="django-paystack-button" onclick="payWithPayStack()">
+                Make Payment
+            </button>
+        </div>
+
+        </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2024 nomask.store. All rights reserved.</p>
+                <ul class="footer-legal">
+    
+                    <li><a href="#">
+                            <div class="footer-social">
+                                
+                                <a href="https://www.instagram.com/nomask.clo/" class="social-link">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+       
+        // Menu functionality
+        const menuBtn = document.getElementById('menu-btn');
+        const menuOverlay = document.getElementById('menu-overlay');
+        const closeMenuBtn = document.getElementById('close-menu');
+
+        menuBtn.addEventListener('click', openMenu);
+        closeMenuBtn.addEventListener('click', closeMenu);
+        menuOverlay.addEventListener('click', (e) => {
+            if (e.target === menuOverlay) closeMenu();
+        });
+
+        function openMenu() {
+            menuOverlay.classList.add('active');
+        }
+
+        function closeMenu() {
+            menuOverlay.classList.remove('active');
+        }
+
+        // Summary toggle functionality
+        const summaryHeader = document.getElementById('summary-header');
+        const summaryItems = document.getElementById('summary-items');
+        const toggleIcon = document.getElementById('toggle-icon');
+        let isCartCollapsed = false;
+
+        summaryHeader.addEventListener('click', () => {
+            isCartCollapsed = !isCartCollapsed;
+            summaryItems.style.display = isCartCollapsed ? 'none' : 'block';
+            toggleIcon.classList.toggle('rotated', isCartCollapsed);
+        });
+
+        // Show alert function
+        function showAlert(message, type = 'info') {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert alert-${type}`;
+            alert.classList.remove('hidden');
+
+            setTimeout(() => {
+                alert.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Initialize page animations
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('No Mask payment page loaded successfully');
+
+            // Add fade-in animation to payment container
+            const paymentContainer = document.querySelector('.payment-container');
+            if (paymentContainer) {
+                paymentContainer.classList.add('fade-in-up');
+            }
+        });
+    </script>
+
+    <script>
+        delivery_cost = 0
+        total = Number('{{payment.total_actual}}') + delivery_cost
+        total = total * 100
+
+        function payWithPayStack() {
+            const paystack = new PaystackPop();
+            paystack.newTransaction({
+                key: "pk_live_bb2e84705148a6813e8df5c876019942c67fdcd3",
+                email: "{{payment.email}}",
+                amount: `${total}`,
+                onSuccess: (transaction) => {
+                    localStorage.removeItem('nomask_cart')
+                    window.location.href = '/orderSuccess/{{payment.ref}}'
+                },
+                onCancel: () => {
+                    alert('Payment Canceled')
+                }
+            });
+        }
+    </script>
+    <script src="https://js.paystack.co/v2/inline.js"></script>
+</body>
+
+</html>
