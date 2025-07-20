@@ -919,7 +919,7 @@
                 amount: `${total}`*100,
                 onSuccess: (transaction) => {
                     localStorage.removeItem('nomask_cart')
-                    window.location.href = '/orderSuccess/{{order.slug}}'
+                    window.location.href = '/payment-success/{{order.slug}}/'
                 },
                 onCancel: () => {
                     alert('Payment Canceled')

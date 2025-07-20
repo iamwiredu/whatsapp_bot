@@ -1,11 +1,12 @@
 import uuid
+import requests
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from .models import Order
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.conf import settings
-
+from urllib.parse import quote
 
 def home(request):
     return render(request,'home.html')
@@ -46,6 +47,9 @@ def create_order(request):
 def view_order(request, slug):
     order = get_object_or_404(Order, slug=slug)
 
+    if order.paid:
+        return redirect('order_success',slug=order.slug)
+
     whatsapp_number = '233XXXXXXXXX'  # Your business line
     message = f"Hello, I’ve completed payment for my order ({order.slug})"
     whatsapp_link = f"https://wa.me/{whatsapp_number}?text={message.replace(' ', '%20')}"
@@ -58,13 +62,27 @@ def view_order(request, slug):
     })
 
 
+
+
+
 def payment_success(request, slug):
     order = get_object_or_404(Order, slug=slug)
-    order.paid = True
-    order.save()
 
-    whatsapp_number = '233XXXXXXXXX'
-    message = f"Hello, I’ve completed payment for my order ({order.slug})"
-    whatsapp_link = f"https://wa.me/{whatsapp_number}?text={message.replace(' ', '%20')}"
+    if not order.paid:
+        order.paid = True
+        order.save()
 
-    return redirect(whatsapp_link)
+        # Call Node.js to send WhatsApp message
+        try:
+            node_url = 'http://localhost:3000/send-payment-confirmation'  # use ngrok in prod
+            payload = {
+                'phone': order.phone_number,
+                'slug': order.slug
+            }
+            requests.post(node_url, json=payload, timeout=10)
+        except Exception as e:
+            print("⚠️ Failed to notify WhatsApp bot:", e)
+
+    return render(request, 'orderSuccess.html', {
+        'order': order
+    })
