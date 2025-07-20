@@ -1,1 +1,8 @@
 <h1>The order has been paid</h1>
+{% if whatsapp_response %}
+  {% if whatsapp_response.success %}
+    <p>✅ WhatsApp notification sent successfully.</p>
+  {% else %}
+    <p>⚠️ WhatsApp notification failed: {{ whatsapp_response.error }}</p>
+  {% endif %}
+{% endif %}

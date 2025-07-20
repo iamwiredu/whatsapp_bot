@@ -64,9 +64,9 @@ def view_order(request, slug):
 
 
 
-
 def payment_success(request, slug):
     order = get_object_or_404(Order, slug=slug)
+    whatsapp_response = None  # default
 
     if not order.paid:
         order.paid = True
@@ -74,15 +74,29 @@ def payment_success(request, slug):
 
         # Call Node.js to send WhatsApp message
         try:
-            node_url = 'http://localhost:3000/send-payment-confirmation'  # use ngrok in prod
+            node_url = 'https://whatsapp-bot-node-ej2c.onrender.com/send-payment-confirmation'
             payload = {
                 'phone': order.phone_number,
                 'slug': order.slug
             }
-            requests.post(node_url, json=payload, timeout=10)
+
+            response = requests.post(node_url, json=payload, timeout=10)
+            if response.ok:
+                whatsapp_response = response.json()
+            else:
+                whatsapp_response = {
+                    'success': False,
+                    'error': f'Status {response.status_code}'
+                }
+
         except Exception as e:
             print("⚠️ Failed to notify WhatsApp bot:", e)
+            whatsapp_response = {
+                'success': False,
+                'error': str(e)
+            }
 
     return render(request, 'orderSuccess.html', {
-        'order': order
+        'order': order,
+        'whatsapp_response': whatsapp_response
     })
