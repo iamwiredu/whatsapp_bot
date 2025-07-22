@@ -1,8 +1,828 @@
-<h1>The order has been paid</h1>
-{% if whatsapp_response %}
-  {% if whatsapp_response.success %}
-    <p>✅ WhatsApp notification sent successfully.</p>
-  {% else %}
-    <p>⚠️ WhatsApp notification failed: {{ whatsapp_response.error }}</p>
-  {% endif %}
-{% endif %}
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Success - Grabtexts</title>
+    <link rel="icon" type="image/svg" href="{% static 'logo.svg' %}" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #111827;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        /* Header Styles */
+        .header {
+            background-color: #1f2937;                  
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            border-bottom: 1px solid #374151;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            margin-right: 0.5rem;
+        }
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1BA94C;
+        }
+        .nav {
+            display: none;
+            margin-left: 2rem;
+        }
+        .nav a {
+            color: #d1d5db;
+            text-decoration: none;
+            margin-right: 1.5rem;
+            transition: color 0.3s;
+        }
+        .nav a:hover {
+            color: #1BA94C;
+        }
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background-color: #1BA94C;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #158f3f;
+        }
+        .btn-outline {
+            background-color: transparent;
+            color: #1BA94C;
+            border: 1px solid #1BA94C;
+        }
+        .btn-outline:hover {
+            background-color: #1BA94C;
+            color: white;
+        }
+        .btn-lg {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+        .icon {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.5rem;
+        }
+        /* Success Container */
+        .success-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            margin-top: 2rem;
+        }
+        /* Success Card */
+        .success-card {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .success-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #22c55e, #1BA94C, #22c55e);
+        }
+        /* Success Header */
+        .success-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #374151;
+            position: relative;
+        }
+        .success-icon {
+            width: 5rem;
+            height: 5rem;
+            background: linear-gradient(135deg, #22c55e, #1BA94C);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            animation: successPulse 2s infinite;
+        }
+        .success-icon svg {
+            width: 2.5rem;
+            height: 2.5rem;
+            color: white;
+        }
+        .success-title {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #22c55e;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+        .success-subtitle {
+            color: #9ca3af;
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+        /* Order Confirmation */
+        .order-confirmation {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(27, 169, 76, 0.05));
+            border-radius: 1.25rem;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            position: relative;
+        }
+        .confirmation-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .confirmation-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: #22c55e;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .confirmation-title {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: white;
+        }
+        .confirmation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .confirmation-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: #374151;
+            border-radius: 0.75rem;
+            border: 1px solid #4b5563;
+            transition: all 0.3s;
+        }
+        .confirmation-item:hover {
+            background: #4b5563;
+            border-color: #22c55e;
+        }
+        .confirmation-item-icon {
+            width: 2rem;
+            height: 2rem;
+            background: rgba(34, 197, 94, 0.2);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #22c55e;
+        }
+        .confirmation-item-content {
+            flex: 1;
+        }
+        .confirmation-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .confirmation-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: white;
+        }
+        /* WhatsApp Status */
+        .whatsapp-status {
+            background: #374151;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid #4b5563;
+        }
+        .status-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .status-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .status-icon.success {
+            background: #22c55e;
+        }
+        .status-icon.error {
+            background: #ef4444;
+        }
+        .status-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+        }
+        .status-message {
+            color: #d1d5db;
+            font-size: 0.95rem;
+        }
+        .status-message.success {
+            color: #86efac;
+        }
+        .status-message.error {
+            color: #fca5a5;
+        }
+        /* Order Summary */
+        .order-summary {
+            margin-bottom: 2.5rem;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .section-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: #1BA94C;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .section-title {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: white;
+        }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: #374151;
+            border-radius: 0.75rem;
+            border: 1px solid #4b5563;
+        }
+        .summary-item.total {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(27, 169, 76, 0.05));
+            border-color: #22c55e;
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: #22c55e;
+        }
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .action-btn {
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .action-btn-primary {
+            background: linear-gradient(135deg, #1BA94C, #22c55e);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(27, 169, 76, 0.3);
+        }
+        .action-btn-secondary {
+            background: #374151;
+            color: #d1d5db;
+            border: 1px solid #4b5563;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+        .action-btn-primary:hover {
+            box-shadow: 0 25px 50px -12px rgba(27, 169, 76, 0.4);
+        }
+        .action-btn-secondary:hover {
+            background: #4b5563;
+            border-color: #1BA94C;
+        }
+        /* Footer */
+        .footer {
+            background-color: #000000;
+            color: white;
+            padding: 4rem 0;
+            margin-top: 4rem;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .footer-description {
+            color: #9ca3af;
+            margin-bottom: 1.5rem;
+            max-width: 24rem;
+        }
+        .footer-section h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        .footer-links {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover {
+            color: white;
+        }
+        .footer-links svg {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.5rem;
+        }
+        .footer-bottom {
+            border-top: 1px solid #1f2937;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            text-align: center;
+            color: #6b7280;
+        }
+        /* Alert styling */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            position: fixed;
+            top: 6rem;
+            right: 2rem;
+            z-index: 1000;
+            max-width: 400px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            font-weight: 500;
+            backdrop-filter: blur(20px);
+            border: 1px solid;
+        }
+        .alert-info {
+            background: rgba(27, 169, 76, 0.1);
+            border-color: #1BA94C;
+            color: #1BA94C;
+        }
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+        .alert-success {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: #22c55e;
+            color: #22c55e;
+        }
+        .hidden {
+            display: none;
+        }
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes successPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+            }
+        }
+        @keyframes checkmark {
+            0% {
+                stroke-dashoffset: 100;
+            }
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        .checkmark-animation {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: checkmark 1s ease-in-out 0.5s forwards;
+        }
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .nav {
+                display: flex;
+            }
+            .footer-content {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .footer-brand-section {
+                grid-column: span 2;
+            }
+        }
+        @media (max-width: 768px) {
+            .success-container {
+                padding: 1rem;
+                margin-top: 1rem;
+            }
+            .success-card {
+                padding: 2rem;
+            }
+            .confirmation-grid {
+                grid-template-columns: 1fr;
+            }
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+            .alert {
+                right: 1rem;
+                left: 1rem;
+                max-width: none;
+            }
+        }
+        .hidden-sm {
+            display: none;
+        }
+        @media (min-width: 640px) {
+            .hidden-sm {
+                display: inline-flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <svg class="logo" width="32" height="32" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M35 45 L85 45 L82 85 L38 85 Z" fill="#374151" stroke="#1BA94C" stroke-width="2.5" stroke-linejoin="round"></path>
+                        <path d="M45 45 L45 38 C45 33 48 30 53 30 L67 30 C72 30 75 33 75 38 L75 45" fill="none" stroke="#1BA94C" stroke-width="2.5" stroke-linecap="round"></path>
+                        <circle cx="75" cy="35" r="18" fill="#1BA94C" stroke="#374151" stroke-width="2"></circle>
+                        <line x1="68" y1="30" x2="82" y2="30" stroke="#ffffff" stroke-width="2" stroke-linecap="round"></line>
+                        <line x1="68" y1="35" x2="80" y2="35" stroke="#ffffff" stroke-width="2" stroke-linecap="round"></line>
+                        <line x1="68" y1="40" x2="78" y2="40" stroke="#ffffff" stroke-width="2" stroke-linecap="round"></line>
+                        <path d="M65 45 L60 50 L70 48 Z" fill="#1BA94C"></path>
+                        <circle cx="50" cy="60" r="4" fill="#1BA94C"></circle>
+                        <circle cx="65" cy="65" r="4" fill="#1BA94C"></circle>
+                        <circle cx="55" cy="72" r="4" fill="#1BA94C"></circle>
+                        <defs>
+                            <linearGradient id="gradientDark" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#1f2937"></stop>
+                                <stop offset="100%" stop-color="#111827"></stop>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="brand-name">Grabtexts</div>
+                </div>
+                <div class="header-buttons">
+                    <a href="#" class="btn btn-outline hidden-sm">Help</a>
+                    <button class="btn btn-primary" onclick="openWhatsApp()">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Alert for messages -->
+    <div class="alert alert-success hidden" id="alert"></div>
+
+    <!-- Main Content -->
+    <main class="success-container">
+        <div class="success-card fade-in-up">
+            <div class="success-header">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="checkmark-animation">
+                        <polyline points="20,6 9,17 4,12"></polyline>
+                    </svg>
+                </div>
+                <h1 class="success-title">Order Successful!</h1>
+                <p class="success-subtitle">Your payment has been processed successfully</p>
+            </div>
+
+            <!-- Order Confirmation -->
+            <div class="order-confirmation">
+                <div class="confirmation-header">
+                    <div class="confirmation-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11l3 3l8-8"></path>
+                            <path d="M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8"></path>
+                        </svg>
+                    </div>
+                    <h3 class="confirmation-title">Order Confirmation</h3>
+                </div>
+                <div class="confirmation-grid">
+                    <div class="confirmation-item">
+                        <div class="confirmation-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4"></path>
+                                <path d="M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                        </div>
+                        <div class="confirmation-item-content">
+                            <div class="confirmation-label">Order ID</div>
+                            <div class="confirmation-value">#{{order.order_id}}</div>
+                        </div>
+                    </div>
+                    <div class="confirmation-item">
+                        <div class="confirmation-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                        </div>
+                        <div class="confirmation-item-content">
+                            <div class="confirmation-label">Phone</div>
+                            <div class="confirmation-value">+{{order.phone_number}}</div>
+                        </div>
+                    </div>
+                    <div class="confirmation-item">
+                        <div class="confirmation-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                        </div>
+                        <div class="confirmation-item-content">
+                            <div class="confirmation-label">Address</div>
+                            <div class="confirmation-value">{{order.address}}</div>
+                        </div>
+                    </div>
+                    <div class="confirmation-item">
+                        <div class="confirmation-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9,22 9,12 15,12 15,22"></polyline>
+                            </svg>
+                        </div>
+                        <div class="confirmation-item-content">
+                            <div class="confirmation-label">Service</div>
+                            <div class="confirmation-value">Kuffour's babering Service</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="section-title">Payment Summary</h3>
+                </div>
+                <div class="summary-item">
+                    <span>Subtotal:</span>
+                    <span>GHS {{order.amount}}.00</span>
+                </div>
+                <div class="summary-item">
+                    <span>Service Fee:</span>
+                    <span>GHS 2.00</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Total Paid:</span>
+                    <span>GHS {{order.total}}.00</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="action-btn action-btn-primary" onclick="trackOrder()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    Track Order
+                </button>
+          
+                <button class="action-btn action-btn-secondary" onclick="openWhatsApp()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                    Contact Support
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand-section" style="grid-column: span 2;">
+                    <div class="footer-brand">
+                        <svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 0.5rem;">
+                            <circle cx="20" cy="20" r="19" fill="#1BA94C" />
+                            <path d="M12 15 L28 15 L27 30 L13 30 Z" fill="#ffffff" stroke-width="1" />
+                            <circle cx="26" cy="12" r="6" fill="#ffffff" />
+                            <line x1="23" y1="10" x2="29" y2="10" stroke="#1BA94C" stroke-width="1" />
+                            <line x1="23" y1="12" x2="28" y2="12" stroke="#1BA94C" stroke-width="1" />
+                            <line x1="23" y1="14" x2="27" y2="14" stroke="#1BA94C" stroke-width="1" />
+                        </svg>
+                        <div style="font-size: 1.5rem; font-weight: bold; color: #1BA94C;">Grabtexts</div>
+                    </div>
+                    <p class="footer-description">
+                        The future of mobile commerce. Shop everything via WhatsApp with secure payments and instant delivery.
+                    </p>
+                    <button class="btn btn-primary" onclick="openWhatsApp()">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                        Need Help?
+                    </button>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Grabtexts. All rights reserved. Built for the future of mobile commerce.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // WhatsApp Integration
+        function openWhatsApp() {
+            const phoneNumber = '+233559665774';
+            const message = encodeURIComponent(`Hi! I need help with my order #{{order.order_id}}.`);
+            const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+            window.open(whatsappURL, '_blank');
+        }
+
+        // Track Order Function
+        function trackOrder() {
+            // You can redirect to a tracking page or show tracking info
+            showAlert('Order tracking feature coming soon!', 'info');
+        }
+
+        // Continue Shopping Function
+        function continueShopping() {
+            // Redirect to main shopping page
+            window.location.href = '/';
+        }
+
+        // Show Alert Function
+        function showAlert(message, type = 'info') {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            alert.classList.remove('hidden');
+            
+            setTimeout(() => {
+                alert.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Add interactive hover effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Confirmation item hover effects
+            document.querySelectorAll('.confirmation-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.02)';
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+
+            // Action button hover effects
+            document.querySelectorAll('.action-btn').forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                btn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Show success message
+            setTimeout(() => {
+                showAlert('Order completed successfully! 🎉', 'success');
+            }, 1000);
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+
+        // Add CSS for animations
+        const style = document.createElement('style');
+        style.textContent = `
+            .animate-spin {
+                animation: spin 1s linear infinite;
+            }
+            
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            
+            .header {
+                transition: transform 0.3s ease;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -48,7 +48,7 @@ def view_order(request, slug):
     order = get_object_or_404(Order, slug=slug)
 
     if order.paid:
-        return redirect('order_success',slug=order.slug)
+        return redirect('payment_success',slug=order.slug)
 
     whatsapp_number = '233XXXXXXXXX'  # Your business line
     message = f"Hello, I’ve completed payment for my order ({order.slug})"
@@ -57,7 +57,7 @@ def view_order(request, slug):
     return render(request, 'makePayment.html', {
         'order': order,
         'paystack_public_key': 'https://07229c36e080.ngrok-free.app/create-order/',
-        'callback_url': f"https://yourdomain.com/payment-success/{order.slug}/",
+        'callback_url': f"https://grabtexts.shop/payment-success/{order.slug}/",
         'whatsapp_link': whatsapp_link,
     })
 
@@ -77,7 +77,8 @@ def payment_success(request, slug):
             node_url = 'https://whatsapp-bot-node-ej2c.onrender.com/send-payment-confirmation'
             payload = {
                 'phone': order.phone_number,
-                'slug': order.slug
+                'slug': order.slug,
+                'order_id':order.order_id
             }
 
             response = requests.post(node_url, json=payload, timeout=10)

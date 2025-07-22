@@ -15,5 +15,8 @@ class Order(models.Model):
 
     @property
     def total(self):
-        return self.amount + 7 + 2
+        return self.amount + 2
     
+    @property
+    def order_id(self):
+        return f'PO-{str(self.id).zfill(4)}'

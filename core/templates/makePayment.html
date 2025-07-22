@@ -29,7 +29,7 @@
         /* Header Styles */
         .header {
             background-color: #1f2937;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      
             position: sticky;
             top: 0;
             z-index: 50;
@@ -672,10 +672,6 @@
                         </defs>
                     </svg>
                     <div class="brand-name">Grabtexts</div>
-                    <nav class="nav">
-                        <a href="#orders">Orders</a>
-                        <a href="#support">Support</a>
-                    </nav>
                 </div>
                 <div class="header-buttons">
                     <a href="#" class="btn btn-outline hidden-sm">Help</a>
@@ -698,7 +694,7 @@
         <div class="payment-card fade-in-up">
             <div class="payment-header">
                 <h1 class="payment-title">Order Summary</h1>
-                <p class="payment-subtitle">Order #GT-2024-001234</p>
+                <p class="payment-subtitle">#{{order.order_id}}</p>
             </div>
 
             <!-- Customer Info -->
@@ -739,18 +735,7 @@
                         </div>
                     </div>
 
-                    <div class="info-item">
-                        <div class="info-item-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12,6 12,12 16,14"></polyline>
-                            </svg>
-                        </div>
-                        <div class="info-item-content">
-                            <div class="info-label">Delivery Time</div>
-                            <div class="info-value">25-35 minutes</div>
-                        </div>
-                    </div>
+             
 
                     <div class="info-item">
                         <div class="info-item-icon">
@@ -760,8 +745,8 @@
                             </svg>
                         </div>
                         <div class="info-item-content">
-                            <div class="info-label">Restaurant</div>
-                            <div class="info-value">Grabtexts Kitchen</div>
+                            <div class="info-label">Service</div>
+                            <div class="info-value">Kuffour's babering Service</div>
                         </div>
                     </div>
                 </div>
@@ -775,28 +760,10 @@
                             <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                         </svg>
                     </div>
-                    <h3 class="section-title">Your Order</h3>
+             
                 </div>
 
-                <div class="order-item">
-                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=80&h=80&fit=crop" alt="Pizza" class="order-item-image">
-                    <div class="order-item-details">
-                        <h4 class="order-item-name">Margherita Pizza</h4>
-                        <p class="order-item-meta">Large • Thin Crust • 2x</p>
-                        <span class="order-item-note">Extra cheese, no olives</span>
-                    </div>
-                    <div class="order-item-price">GHS 45.00</div>
-                </div>
-
-                <div class="order-item">
-                    <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=80&h=80&fit=crop" alt="Drink" class="order-item-image">
-                    <div class="order-item-details">
-                        <h4 class="order-item-name">Fresh Orange Juice</h4>
-                        <p class="order-item-meta">Large • Fresh Squeezed • 1x</p>
-                        <span class="order-item-note">No ice</span>
-                    </div>
-                    <div class="order-item-price">GHS 15.00</div>
-                </div>
+     
             </div>
 
             <!-- Totals -->
@@ -805,10 +772,7 @@
                     <span>Subtotal:</span>
                     <span>GHS {{order.amount}}.00</span>
                 </div>
-                <div class="total-row">
-                    <span>Delivery Fee:</span>
-                    <span>GHS 7.00</span>
-                </div>
+       
                 <div class="total-row">
                     <span>Service Fee:</span>
                     <span>GHS 2.00</span>
@@ -852,47 +816,8 @@
                         <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                         </svg>
-                        Start Shopping
+                        Need Help?
                     </button>
-                </div>
-                <div class="footer-section">
-                    <h4>Shop</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">All Categories</a></li>
-                        <li><a href="#">Featured Products</a></li>
-                        <li><a href="#">Top Vendors</a></li>
-                        <li><a href="#">New Arrivals</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Support</h4>
-                    <ul class="footer-links">
-                        <li>
-                            <a href="#">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                                </svg>
-                                Privacy Policy
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                </svg>
-                                Contact Us
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                                </svg>
-                                Instagram
-                            </a>
-                        </li>
-                        <li><a href="#">Help Center</a></li>
-                    </ul>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -904,7 +829,7 @@
     <script>
         // WhatsApp Integration
         function openWhatsApp() {
-            const phoneNumber = '+233504642059';
+            const phoneNumber = '+233559665774';
             const message = encodeURIComponent('Hi! I need help with my order.');
             const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
             window.open(whatsappURL, '_blank');
